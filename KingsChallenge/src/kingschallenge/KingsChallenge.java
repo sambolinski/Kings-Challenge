@@ -19,8 +19,9 @@ public class KingsChallenge {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Frame frame = new Frame();
         Puzzle puzzle = new Puzzle();
+        Frame frame = new Frame();
+        frame.setPuzzle(puzzle);
         Controller controller = new Controller(frame, puzzle);
     }
     

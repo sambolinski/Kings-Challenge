@@ -7,6 +7,7 @@ package kingschallenge.View;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import kingschallenge.Model.Puzzle;
 
 /**
  *
@@ -14,21 +15,29 @@ import javax.swing.JFrame;
  */
 public class Frame extends JFrame{
     private Panel panel;
+    private Puzzle puzzle;
     private Dimension dimension = new Dimension(1200,750);
     public Frame(){
-        init();
     }
     public void init(){
         this.setTitle("Rotating Circle Puzzle");
         this.setSize(dimension);
         this.setPreferredSize(dimension);
         this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        panel = new Panel(dimension, puzzle);
+        this.add(panel);
         this.pack();
     }
 
     public Dimension getDimension() {
         return dimension;
     }
+
+    public void setPuzzle(Puzzle puzzle) {
+        this.puzzle = puzzle;
+    }
+    
     
 }
