@@ -38,6 +38,10 @@ public class Frame extends JFrame{
     public void setPuzzle(Puzzle puzzle) {
         this.puzzle = puzzle;
     }
+
+    public Panel getPanel() {
+        return panel;
+    }
     
     
 }

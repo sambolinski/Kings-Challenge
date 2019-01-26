@@ -22,6 +22,7 @@ public class Panel extends JPanel{
     private Puzzle puzzle;
     private Color unsolvedColor = new Color(48,48,48);
     private Color solvedColor = new Color(105,181,72);
+    private boolean solved;
     public Panel(Dimension dimension, Puzzle puzzle){
         this.dimension = dimension;
         this.puzzle = puzzle;
@@ -40,20 +41,23 @@ public class Panel extends JPanel{
         for(int i = 0; i < puzzle.getNumbers().size(); ++i){
             int offsetX = puzzle.getImage().getWidth()/2;
             int offsetY = puzzle.getImage().getHeight()/2;
-            if(i < 4 || i > 7){ offsetX += -190;}
-            else{offsetX += 190;}
-            g.drawString(Integer.toString(puzzle.getNumbers().get(i).getValue()), puzzle.getNumbers().get(i).getPos().x+offsetX, puzzle.getNumbers().get(i).getPos().y+offsetY);
-            
-            System.out.println("Value: "+puzzle.getNumbers().get(i).getValue()
-                                + ", x: "+puzzle.getNumbers().get(i).getPos().x+offsetX
-                                + ", y: "+puzzle.getNumbers().get(i).getPos().y+offsetY);
+            if(i < 4 || i > 7){ offsetX += -206;}
+            else{offsetX += 206;}
+            g.drawString(Integer.toString(puzzle.getNumbers().get(i).getValue()), puzzle.getNumbers().get(i).getPos().x+offsetX, -puzzle.getNumbers().get(i).getPos().y+offsetY);
+
         }
     }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        this.repaint();
         drawCircle(g);
         drawNumbers(g);
+    }
+
+    public void setSolved(boolean solved) {
+        if(solved) this.setForeground(solvedColor);
+        else this.setForeground(unsolvedColor);
     }
     
 }

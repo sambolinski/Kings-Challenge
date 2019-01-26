@@ -23,8 +23,8 @@ public class Number {
         this.currentAngle = targetAngle;
     }
     public Point getPos(){
-        int x = (int)(Math.sin(Math.toRadians(currentAngle))*238);
-        int y = (int)(Math.cos(Math.toRadians(currentAngle))*238);
+        int x = (int)(Math.sin(Math.toRadians(currentAngle))*radius);
+        int y = (int)(Math.cos(Math.toRadians(currentAngle))*radius);
         return new Point(x,y);
     }
     public void rotate(){
@@ -32,6 +32,7 @@ public class Number {
     }
     public void setTargetAngle(double targetAngle) {
         this.targetAngle = targetAngle;
+        this.currentAngle = targetAngle; //only here for testing
     }
     
     public int getSize() {

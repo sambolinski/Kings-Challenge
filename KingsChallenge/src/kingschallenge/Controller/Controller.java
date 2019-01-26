@@ -5,6 +5,7 @@
  */
 package kingschallenge.Controller;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import kingschallenge.Model.Puzzle;
@@ -22,8 +23,19 @@ public class Controller {
         this.frame = frame;
         this.frame.init();
         this.puzzle = puzzle;
+        this.frame.addMouseListener(new ControllerListener());
     }
-
+    public int circleSelected(Point pos){
+        Point leftCircle = new Point(puzzle.getImage().getWidth()/2-190,puzzle.getImage().getHeight()/2);
+        Point rightCircle = new Point(puzzle.getImage().getWidth()/2+190,puzzle.getImage().getHeight()/2);
+        if(pos.distance(leftCircle) <= puzzle.getPuzzleRadius() && pos.distance(rightCircle) > puzzle.getPuzzleRadius()){
+            return -1;
+        }else if(pos.distance(leftCircle) > puzzle.getPuzzleRadius() && pos.distance(rightCircle) <= puzzle.getPuzzleRadius()){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
     public boolean isRotating() {
         return rotating;
     }
@@ -39,7 +51,15 @@ public class Controller {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if(!rotating){
+                if(circleSelected(e.getPoint()) == -1){
+                    puzzle.rotateLeft();
+                }else if(circleSelected(e.getPoint()) == 1){
+                    puzzle.rotateRight();
+                }
+            }
+            puzzle.checkSolved();
+            frame.getPanel().setSolved(puzzle.isSolved());
         }
 
         @Override
