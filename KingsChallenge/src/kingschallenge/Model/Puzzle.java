@@ -21,8 +21,8 @@ public class Puzzle {
     private int puzzleRadius = 296;
     private boolean solved = false;
     private final int[] SOLVED_STATE = {1, 6, 5, 4, 1, 6, 5, 4, 3, 2};
-    private final int[] DEFAULT_ORDER = {1, 6, 5, 4, 1, 6, 5, 4, 3, 2};
-    private final double[] ANGLES = {0d, 300d, 240d, 180d, 0d, 60d, 120d, 180.000d, 120d, 60d};
+    private final int[] DEFAULT_ORDER = {1, 4, 4, 3, 5, 5, 6, 6, 2, 1};
+    private final double[] ANGLES = {0d, 300d, 240d, 180d, 0d, 60d, 120d, 180.000d, 120d, 60d, 240d, 300d};
     public Puzzle(){
         init();
     }
@@ -39,7 +39,13 @@ public class Puzzle {
     public void init_numbers(){
         //init numbers arraylist
         for(int i = 0; i < 10; ++i){
-            numbers.add(new Number(DEFAULT_ORDER[i],ANGLES[i]));
+            Number tmp = new Number(DEFAULT_ORDER[i],ANGLES[i]);
+            if(i < 4 || i > 7){
+                tmp.setRightCircle(false);
+            }else{
+                tmp.setRightCircle(true);
+            }
+            numbers.add(tmp);
         }
     }
     private void shift(ArrayList<Number> n){
@@ -74,8 +80,10 @@ public class Puzzle {
         shift(tmpCopy);
         Collections.reverse(tmpCopy);
         int offset = 4;
-        for(int i = 0; i < tmpCopy.size(); ++i){
-            tmpCopy.get(i).setTargetAngle(ANGLES[i+offset]);
+        int angleOffset = 0;
+        for(int i = 0; i < 6; ++i){
+            if(i > 3) angleOffset = 2;
+            tmpCopy.get(i).setTargetAngle(ANGLES[i+offset+angleOffset]);
             numbers.set(i+offset, tmpCopy.get(i));
         }
     }

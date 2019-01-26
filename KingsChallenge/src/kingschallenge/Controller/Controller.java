@@ -51,15 +51,23 @@ public class Controller {
 
         @Override
         public void mousePressed(MouseEvent e) {
+            rotating = frame.getPanel().isRotating();
             if(!rotating){
                 if(circleSelected(e.getPoint()) == -1){
+                    puzzle.getNumbers().get(8).setCurrentAngle(120);
+                    puzzle.getNumbers().get(9).setCurrentAngle(60);
+                    puzzle.getNumbers().get(8).setRightCircle(false);
+                    puzzle.getNumbers().get(9).setRightCircle(false);
                     puzzle.rotateLeft();
                 }else if(circleSelected(e.getPoint()) == 1){
+                    puzzle.getNumbers().get(8).setCurrentAngle(240);
+                    puzzle.getNumbers().get(9).setCurrentAngle(300);
+                    puzzle.getNumbers().get(8).setRightCircle(true);
+                    puzzle.getNumbers().get(9).setRightCircle(true);
                     puzzle.rotateRight();
                 }
             }
             puzzle.checkSolved();
-            frame.getPanel().setSolved(puzzle.isSolved());
         }
 
         @Override
