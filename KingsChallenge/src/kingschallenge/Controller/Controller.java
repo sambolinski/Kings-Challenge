@@ -17,6 +17,9 @@ import kingschallenge.View.Frame;
  */
 public class Controller {
     private boolean rotating = false; // so user cannot click while rotation is happening
+    private boolean inMenu = false;
+    private boolean started = true;
+    private boolean ended = false;
     private Frame frame;
     private Puzzle puzzle;
     public Controller(Frame frame, Puzzle puzzle){
@@ -52,7 +55,8 @@ public class Controller {
         @Override
         public void mousePressed(MouseEvent e) {
             rotating = frame.getPanel().isRotating();
-            if(!rotating){
+            inMenu = frame.getPanel().isInMenu();
+            if(!rotating && !inMenu && started && !ended){
                 if(circleSelected(e.getPoint()) == -1){
                     puzzle.getNumbers().get(8).setCurrentAngle(120);
                     puzzle.getNumbers().get(9).setCurrentAngle(60);
