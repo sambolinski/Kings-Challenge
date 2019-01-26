@@ -31,9 +31,7 @@ public class Panel extends JPanel implements ActionListener{
     private boolean rotating = false;
     private boolean solved;
     private Font font; 
-    private JButton defaultButton;
     private JButton resetButton;
-    private JButton shuffleButton;
     public Panel(Dimension dimension, Puzzle puzzle){
         this.dimension = dimension;
         this.puzzle = puzzle;
