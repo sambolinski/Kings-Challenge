@@ -30,7 +30,7 @@ public class Panel extends JPanel implements ActionListener{
     private Timer timer = new Timer(10, this);
     private boolean rotating = false;
     private boolean solved;
-    
+    private Font font; 
     private JButton defaultButton;
     private JButton resetButton;
     private JButton shuffleButton;
@@ -42,7 +42,8 @@ public class Panel extends JPanel implements ActionListener{
     }
     public void init(){
         this.setSize(dimension);
-        this.setFont(new Font("Century Gothic", Font.PLAIN, puzzle.getNumbers().get(0).getSize())); 
+        font = new Font("Century Gothic", Font.PLAIN, puzzle.getNumbers().get(0).getSize());
+        this.setFont(font); 
         this.setForeground(unsolvedColor);
         timer.setRepeats(false);
     }
@@ -103,6 +104,7 @@ public class Panel extends JPanel implements ActionListener{
                 offsetX += -206;
             }
             timer.start();
+            offsetX -= g.getFontMetrics(font).getStringBounds(Integer.toString(puzzle.getNumbers().get(i).getValue()), g).getWidth()/2;
             g.drawString(Integer.toString(puzzle.getNumbers().get(i).getValue()), puzzle.getNumbers().get(i).getPos().x+offsetX, -puzzle.getNumbers().get(i).getPos().y+offsetY);
 
         }
