@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import kingschallenge.Model.Puzzle;
@@ -29,10 +30,15 @@ public class Panel extends JPanel implements ActionListener{
     private Timer timer = new Timer(10, this);
     private boolean rotating = false;
     private boolean solved;
+    
+    private JButton defaultButton;
+    private JButton resetButton;
+    private JButton shuffleButton;
     public Panel(Dimension dimension, Puzzle puzzle){
         this.dimension = dimension;
         this.puzzle = puzzle;
         init();
+        initButtons();
     }
     public void init(){
         this.setSize(dimension);
@@ -40,7 +46,37 @@ public class Panel extends JPanel implements ActionListener{
         this.setForeground(unsolvedColor);
         timer.setRepeats(false);
     }
-    
+    private void initButtons(){
+        this.setLayout(null);
+        resetButton = new JButton("reset");
+        resetButton.setBounds(dimension.width-110, 10, 100, 25);
+        defaultButton = new JButton("default");
+        defaultButton.setBounds(dimension.width-110, 40, 100, 25);
+        shuffleButton = new JButton("shuffle");
+        shuffleButton.setBounds(dimension.width-110, 70, 100, 25);
+        
+        resetButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetButtonAction();
+            }
+        });
+        defaultButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                defaultButtonAction();
+            }
+        });
+        shuffleButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                shuffleButtonAction();
+            }
+        });
+        this.add(resetButton);
+        this.add(defaultButton);
+        this.add(shuffleButton);
+    }
     public void drawCircle(Graphics g){
         g.drawImage(puzzle.getImage(), 0, 0, this);
     }
@@ -61,7 +97,7 @@ public class Panel extends JPanel implements ActionListener{
         for(int i = 0; i < puzzle.getNumbers().size(); ++i){
             int offsetX = puzzle.getImage().getWidth()/2;
             int offsetY = puzzle.getImage().getHeight()/2;
-            if(puzzle.getNumbers().get(i).getRightCircle()){
+            if(puzzle.getNumbers().get(i).isRightCircle()){
                 offsetX += 206;
             }else{
                 offsetX += -206;
@@ -70,6 +106,15 @@ public class Panel extends JPanel implements ActionListener{
             g.drawString(Integer.toString(puzzle.getNumbers().get(i).getValue()), puzzle.getNumbers().get(i).getPos().x+offsetX, -puzzle.getNumbers().get(i).getPos().y+offsetY);
 
         }
+    }
+    public void resetButtonAction(){
+        puzzle.reset();
+    }
+    public void defaultButtonAction(){
+        puzzle.init_numbers();;
+    }
+    public void shuffleButtonAction(){
+        puzzle.shuffle();
     }
     @Override
     protected void paintComponent(Graphics g) {

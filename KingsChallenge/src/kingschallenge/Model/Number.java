@@ -70,7 +70,9 @@ public class Number {
     public void setRightCircle(boolean rightCircle) {
         this.rightCircle = rightCircle;
     }
-    public boolean getRightCircle(){
-        return rightCircle;
+
+    public double getTargetAngle() {
+        return targetAngle;
     }
+    
 }

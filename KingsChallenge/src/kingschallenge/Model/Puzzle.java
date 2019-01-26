@@ -16,10 +16,11 @@ import javax.imageio.ImageIO;
  * @author Sam
  */
 public class Puzzle {
-    private ArrayList<Number> numbers = new ArrayList<Number>();
+    private ArrayList<Number> numbers;
     private BufferedImage image;
     private int puzzleRadius = 296;
     private boolean solved = false;
+    private ArrayList<Number> resetList;
     private final int[] SOLVED_STATE = {1, 6, 5, 4, 1, 6, 5, 4, 3, 2};
     private final int[] DEFAULT_ORDER = {1, 4, 4, 3, 5, 5, 6, 6, 2, 1};
     private final double[] ANGLES = {0d, 300d, 240d, 180d, 0d, 60d, 120d, 180.000d, 120d, 60d, 240d, 300d};
@@ -38,6 +39,7 @@ public class Puzzle {
     }
     public void init_numbers(){
         //init numbers arraylist
+        numbers = new ArrayList<Number>();
         for(int i = 0; i < 10; ++i){
             Number tmp = new Number(DEFAULT_ORDER[i],ANGLES[i]);
             if(i < 4 || i > 7){
@@ -47,6 +49,25 @@ public class Puzzle {
             }
             numbers.add(tmp);
         }
+        resetList = deepCopy(numbers);
+    }
+    public void shuffle(){
+        debugPrintNumbers();
+        Collections.shuffle(numbers);
+        debugPrintNumbers();
+        for(int i = 0; i < numbers.size(); ++i){
+            numbers.get(i).setTargetAngle(ANGLES[i]);
+            numbers.get(i).setCurrentAngle(ANGLES[i]);
+            if(i < 4 || i > 7){
+                numbers.get(i).setRightCircle(false);
+            }else{
+                numbers.get(i).setRightCircle(true);
+            }
+        }
+        resetList = deepCopy(numbers);
+    }
+    public void reset(){
+        numbers = deepCopy(resetList);
     }
     private void shift(ArrayList<Number> n){
         int i;
@@ -86,6 +107,15 @@ public class Puzzle {
             tmpCopy.get(i).setTargetAngle(ANGLES[i+offset+angleOffset]);
             numbers.set(i+offset, tmpCopy.get(i));
         }
+    }
+    private ArrayList<Number> deepCopy(ArrayList<Number> originalList){
+        ArrayList<Number> tmp = new ArrayList<Number>();
+        for(Number n: originalList){
+            Number tmpNumber = new Number(n.getValue(),n.getTargetAngle());
+            tmpNumber.setRightCircle(n.isRightCircle());
+            tmp.add(tmpNumber);
+        }
+        return tmp;
     }
     public void checkSolved(){
         for(int i = 0; i < numbers.size(); ++i){
