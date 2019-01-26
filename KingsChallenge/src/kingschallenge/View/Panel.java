@@ -111,7 +111,7 @@ public class Panel extends JPanel implements ActionListener{
         puzzle.reset();
     }
     public void defaultButtonAction(){
-        puzzle.init_numbers();;
+        puzzle.initNumbers();
     }
     public void shuffleButtonAction(){
         puzzle.shuffle();

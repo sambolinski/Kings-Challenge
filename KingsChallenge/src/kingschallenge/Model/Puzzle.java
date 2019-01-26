@@ -6,10 +6,16 @@
 package kingschallenge.Model;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /**
  *
@@ -28,16 +34,16 @@ public class Puzzle {
         init();
     }
     public void init(){
-        init_background();
-        init_numbers();
+        initBackground();
+        initNumbers();
     }
-    public void init_background(){
+    public void initBackground(){
         //init background
         try{
-            image = ImageIO.read(getClass().getResource("/kingschallenge/resources/circle.png"));
-        }catch(IOException e){e.printStackTrace();System.out.println("bruh");}
+            image = ImageIO.read(getClass().getResource("/kingschallenge/resources/circle2.png"));
+        }catch(IOException e){e.printStackTrace();}
     }
-    public void init_numbers(){
+    public void initNumbers(){
         //init numbers arraylist
         numbers = new ArrayList<Number>();
         for(int i = 0; i < 10; ++i){
@@ -52,9 +58,7 @@ public class Puzzle {
         resetList = deepCopy(numbers);
     }
     public void shuffle(){
-        debugPrintNumbers();
         Collections.shuffle(numbers);
-        debugPrintNumbers();
         for(int i = 0; i < numbers.size(); ++i){
             numbers.get(i).setTargetAngle(ANGLES[i]);
             numbers.get(i).setCurrentAngle(ANGLES[i]);
@@ -141,7 +145,7 @@ public class Puzzle {
     public boolean isSolved() {
         return solved;
     }
-    
+
     public void debugPrintNumbers(){
         for(Number n: numbers){
             System.out.print(n.getValue()+ ", ");
