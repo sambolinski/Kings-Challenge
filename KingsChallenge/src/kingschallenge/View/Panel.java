@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import kingschallenge.Controller.Controller;
 import kingschallenge.Model.Puzzle;
 import kingschallenge.Model.Number;
 
@@ -29,6 +30,7 @@ public class Panel extends JPanel implements ActionListener{
     private Color unsolvedColor = new Color(48,48,48);
     private Color solvedColor = new Color(105,181,72);
     private Timer timer = new Timer(10, this);
+    private Controller controller;
     private boolean rotating = false;
     private boolean inMenu = false;
     private boolean solved;
@@ -38,6 +40,10 @@ public class Panel extends JPanel implements ActionListener{
     //buttons
     private JButton resetButton;
     private JButton solveButton;
+    //time
+    private int time = 75;
+    private int timerIncrement = 0;
+    
     public Panel(Dimension dimension, Puzzle puzzle){
         this.dimension = dimension;
         this.puzzle = puzzle;
@@ -61,7 +67,7 @@ public class Panel extends JPanel implements ActionListener{
     private void initButtons(){
         this.setLayout(null);
         resetButton = new JButton("reset");
-        resetButton.setBounds(dimension.width-120, 10, 110, 25);
+        resetButton.setBounds(dimension.width-120, 50, 110, 25);
         solveButton = new JButton("🔒solution");
         solveButton.setBounds(dimension.width-120, 130, 110, 25);
         resetButton.addActionListener(new ActionListener(){
@@ -93,6 +99,16 @@ public class Panel extends JPanel implements ActionListener{
             if(!rotating){
                 setSolved(puzzle.isSolved());
             }
+            if(timerIncrement % 1000 == 0 && !controller.isEnded()){
+                --time;
+                timerIncrement = 0;
+            }
+            
+            timerIncrement += (int)timer.getDelay();
+            if(time == 0){
+                time = 0;
+                controller.setEnded(true);
+            }
         }
     }
     public void drawNumbers(Graphics g){
@@ -106,10 +122,20 @@ public class Panel extends JPanel implements ActionListener{
             }
             timer.start();
             offsetX -= g.getFontMetrics(font).getStringBounds(Integer.toString(puzzle.getNumbers().get(i).getValue()), g).getWidth()/2;
+            //draw numbers
             g.drawString(Integer.toString(puzzle.getNumbers().get(i).getValue()), puzzle.getNumbers().get(i).getPos().x+offsetX, -puzzle.getNumbers().get(i).getPos().y+offsetY);
 
         }
     }
+    private String convertToMinute(int t){
+        String minute = Integer.toString(t/60);
+        String second = Integer.toString(t % 60);
+        if (Integer.parseInt(second) < 10) second = "0"+second;
+        return minute + ": "+second;
+    }
+    public void drawTime(Graphics g){
+        g.drawString(convertToMinute(time), this.getWidth()-100, 35);
+    } 
     public void resetButtonAction(){
         puzzle.reset();
     }
@@ -122,6 +148,7 @@ public class Panel extends JPanel implements ActionListener{
         super.paintComponent(g);
         drawCircle(g);
         drawNumbers(g);
+        drawTime(g);
     }
 
     public void setSolved(boolean solved) {
@@ -132,7 +159,7 @@ public class Panel extends JPanel implements ActionListener{
             this.setForeground(unsolvedColor);
         };
     }
-
+    
     public boolean isRotating() {
         return rotating;
     }
@@ -143,6 +170,18 @@ public class Panel extends JPanel implements ActionListener{
 
     public void setInMenu(boolean inMenu) {
         this.inMenu = inMenu;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
     
 }

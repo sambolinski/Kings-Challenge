@@ -26,6 +26,7 @@ public class Controller {
         this.frame = frame;
         this.frame.init();
         this.puzzle = puzzle;
+        this.frame.getPanel().setController(this);
         this.frame.addMouseListener(new ControllerListener());
     }
     public int circleSelected(Point pos){
@@ -46,6 +47,23 @@ public class Controller {
     public void setRotating(boolean rotating) {
         this.rotating = rotating;
     }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public boolean isEnded() {
+        return ended;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
+    }
+    
     class ControllerListener implements MouseListener{
 
         @Override
