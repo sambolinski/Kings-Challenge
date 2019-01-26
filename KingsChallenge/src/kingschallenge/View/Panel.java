@@ -51,10 +51,6 @@ public class Panel extends JPanel implements ActionListener{
         this.setLayout(null);
         resetButton = new JButton("reset");
         resetButton.setBounds(dimension.width-110, 10, 100, 25);
-        defaultButton = new JButton("default");
-        defaultButton.setBounds(dimension.width-110, 40, 100, 25);
-        shuffleButton = new JButton("shuffle");
-        shuffleButton.setBounds(dimension.width-110, 70, 100, 25);
         
         resetButton.addActionListener(new ActionListener(){
             @Override
