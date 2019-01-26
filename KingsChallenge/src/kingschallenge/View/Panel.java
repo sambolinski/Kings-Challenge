@@ -51,10 +51,6 @@ public class Panel extends JPanel implements ActionListener{
         this.setLayout(null);
         resetButton = new JButton("reset");
         resetButton.setBounds(dimension.width-110, 10, 100, 25);
-        defaultButton = new JButton("default");
-        defaultButton.setBounds(dimension.width-110, 40, 100, 25);
-        shuffleButton = new JButton("shuffle");
-        shuffleButton.setBounds(dimension.width-110, 70, 100, 25);
         
         resetButton.addActionListener(new ActionListener(){
             @Override
@@ -62,21 +58,7 @@ public class Panel extends JPanel implements ActionListener{
                 resetButtonAction();
             }
         });
-        defaultButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                defaultButtonAction();
-            }
-        });
-        shuffleButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                shuffleButtonAction();
-            }
-        });
         this.add(resetButton);
-        this.add(defaultButton);
-        this.add(shuffleButton);
     }
     public void drawCircle(Graphics g){
         g.drawImage(puzzle.getImage(), 0, 0, this);
