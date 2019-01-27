@@ -14,22 +14,19 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Sam
  */
-public class PasswordWindow extends JOptionPane{
-    private JPasswordField field;
+public class ScoreWindow extends JOptionPane{
+    private JTextField field;
     private Dimension dimension;
-    private String password;
     private Point pos;
-    private JLabel label;
-    private JButton cancelButton;
-    private JButton submitButton;
     private Panel panel;
-    public PasswordWindow(Dimension dimension, Point pos, Panel panel){
+    private JButton submitButton;
+    public ScoreWindow(Dimension dimension, Point pos, Panel panel){
         this.dimension = dimension;
         this.pos = pos;
         this.pos.x -= dimension.width/2;
@@ -42,47 +39,26 @@ public class PasswordWindow extends JOptionPane{
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setBounds(pos.x, pos.y, dimension.width, dimension.height);
         this.setVisible(true);
-        label = new JLabel("Enter Password");
+        JLabel label = new JLabel("Enter Name");
         label.setBounds(10, 3, (int)(dimension.width*0.8), 30);
-        field = new JPasswordField();
+        field = new JTextField();
         field.setBounds(10, dimension.height/4, (int)(dimension.width*0.8), 30);
-        cancelButton = new JButton("cancel");
+        
         submitButton = new JButton("submit");
-        cancelButton.setBounds(10, (int)(dimension.height*0.6), 100, 30);
-        submitButton.setBounds(150, (int)(dimension.height*0.6), 100, 30);
-        cancelButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cancelButtonAction();
-            }
-        });
         submitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 submitButtonAction();
             }
         });
-        
         this.add(label);
         this.add(field);
-        this.add(cancelButton);
         this.add(submitButton);
-    }
-    public void cancelButtonAction(){
-        this.setVisible(false);
-        this.panel.setInMenu(false);
     }
     public void submitButtonAction(){
         this.setVisible(false);
         this.panel.setInMenu(false);
-        if(panel.getController().getPassword().equals(new String(field.getPassword()))){
-            panel.getController().solvePuzzle();
-        }
-        field.setText("");
         
+        field.setText("");
     }
-    public String getPassword() {
-        return password;
-    }
-    
 }

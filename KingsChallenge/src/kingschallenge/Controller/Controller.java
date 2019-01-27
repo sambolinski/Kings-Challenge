@@ -16,6 +16,7 @@ import kingschallenge.View.Frame;
  * @author Sam
  */
 public class Controller {
+    private String password = "apple";
     private boolean rotating = false; // so user cannot click while rotation is happening
     private boolean inMenu = false;
     private boolean started = true;
@@ -40,6 +41,11 @@ public class Controller {
             return 0;
         }
     }
+    
+    public void solvePuzzle(){
+        this.ended = true;
+        this.puzzle.initNumbers();
+    }
     public boolean isRotating() {
         return rotating;
     }
@@ -63,7 +69,10 @@ public class Controller {
     public void setEnded(boolean ended) {
         this.ended = ended;
     }
-    
+
+    public String getPassword() {
+        return password;
+    }
     class ControllerListener implements MouseListener{
 
         @Override
@@ -88,8 +97,9 @@ public class Controller {
                     puzzle.getNumbers().get(9).setRightCircle(true);
                     puzzle.rotateRight();
                 }
+                puzzle.checkSolved();
+                ended = puzzle.isSolved();
             }
-            puzzle.checkSolved();
         }
 
         @Override

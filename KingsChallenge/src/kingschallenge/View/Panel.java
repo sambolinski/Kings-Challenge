@@ -29,6 +29,7 @@ public class Panel extends JPanel implements ActionListener{
     private Puzzle puzzle;
     private Color unsolvedColor = new Color(48,48,48);
     private Color solvedColor = new Color(105,181,72);
+    private Color timeReachedColor = new Color(239,55,67);
     private Timer timer = new Timer(10, this);
     private Controller controller;
     private boolean rotating = false;
@@ -37,6 +38,7 @@ public class Panel extends JPanel implements ActionListener{
     private Font font; 
     //windows
     private PasswordWindow passwordWindow;
+    private ScoreWindow scoreWindow;
     //buttons
     private JButton resetButton;
     private JButton solveButton;
@@ -62,7 +64,10 @@ public class Panel extends JPanel implements ActionListener{
         
         passwordWindow = new PasswordWindow(new Dimension(350,100), new Point(this.getWidth()/2,this.getHeight()/2),this);
         passwordWindow.setVisible(false);
+        scoreWindow = new ScoreWindow(new Dimension(350,100), new Point(this.getWidth()/2,this.getHeight()/2),this);
+        scoreWindow.setVisible(false);
         this.add(passwordWindow);
+        this.add(scoreWindow);
     }
     private void initButtons(){
         this.setLayout(null);
@@ -108,6 +113,7 @@ public class Panel extends JPanel implements ActionListener{
             if(time == 0){
                 time = 0;
                 controller.setEnded(true);
+                this.setForeground(timeReachedColor);
             }
         }
     }
@@ -152,6 +158,7 @@ public class Panel extends JPanel implements ActionListener{
     }
 
     public void setSolved(boolean solved) {
+        
         if(solved){
             this.setForeground(solvedColor);
         }
@@ -182,6 +189,14 @@ public class Panel extends JPanel implements ActionListener{
 
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
     
 }

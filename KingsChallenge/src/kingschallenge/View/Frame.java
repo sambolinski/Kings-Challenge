@@ -6,6 +6,7 @@
 package kingschallenge.View;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import kingschallenge.Model.Puzzle;
 
@@ -16,7 +17,7 @@ import kingschallenge.Model.Puzzle;
 public class Frame extends JFrame{
     private Panel panel;
     private Puzzle puzzle;
-    private Dimension dimension = new Dimension(1200,750);
+    private Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
     public Frame(){
     }
     public void init(){
@@ -25,9 +26,11 @@ public class Frame extends JFrame{
         this.setPreferredSize(dimension);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         panel = new Panel(dimension, puzzle);
         this.add(panel);
+        this.setUndecorated(true);
+        this.setVisible(true);
         this.pack();
     }
 
