@@ -20,9 +20,13 @@ public class Controller {
     private boolean rotating = false; // so user cannot click while rotation is happening
     private boolean inMenu = false;
     private boolean started = true;
+    private boolean solving = false;
     private boolean ended = false;
     private Frame frame;
     private Puzzle puzzle;
+    
+    private String[] solution = {"r","l","r","r","l","l","r","l","l","l","r","r","r","l","l","l","l","l"};
+    private int currentSolutionIndex = 0;
     public Controller(Frame frame, Puzzle puzzle){
         this.frame = frame;
         this.frame.init();
@@ -43,8 +47,28 @@ public class Controller {
     }
     
     public void solvePuzzle(){
-        this.ended = true;
-        this.puzzle.initNumbers();
+        if(currentSolutionIndex == 0){
+            this.solving = true;
+            this.ended = true;
+            this.puzzle.initNumbers();
+        }
+        if(!puzzle.isSolved() && !rotating){
+            if(solution[currentSolutionIndex].equals("l")){
+                puzzle.getNumbers().get(8).setCurrentAngle(120);
+                puzzle.getNumbers().get(9).setCurrentAngle(60);
+                puzzle.getNumbers().get(8).setRightCircle(false);
+                puzzle.getNumbers().get(9).setRightCircle(false);
+                puzzle.rotateLeft();
+            }else if(solution[currentSolutionIndex].equals("r")){
+                puzzle.getNumbers().get(8).setCurrentAngle(240);
+                puzzle.getNumbers().get(9).setCurrentAngle(300);
+                puzzle.getNumbers().get(8).setRightCircle(true);
+                puzzle.getNumbers().get(9).setRightCircle(true);
+                puzzle.rotateRight();
+            }
+            ++currentSolutionIndex;
+            puzzle.checkSolved();
+        }
     }
     public boolean isRotating() {
         return rotating;
@@ -73,6 +97,19 @@ public class Controller {
     public String getPassword() {
         return password;
     }
+
+    public void setSolving(boolean solving) {
+        this.solving = solving;
+    }
+
+    public boolean isSolving() {
+        return solving;
+    }
+    
+    public int getCurrentSolutionIndex() {
+        return currentSolutionIndex;
+    }
+    
     class ControllerListener implements MouseListener{
 
         @Override
@@ -83,7 +120,7 @@ public class Controller {
         public void mousePressed(MouseEvent e) {
             rotating = frame.getPanel().isRotating();
             inMenu = frame.getPanel().isInMenu();
-            if(!rotating && !inMenu && started && !ended){
+            if(!rotating && !inMenu && started && !ended && !solving){
                 if(circleSelected(e.getPoint()) == -1){
                     puzzle.getNumbers().get(8).setCurrentAngle(120);
                     puzzle.getNumbers().get(9).setCurrentAngle(60);

@@ -102,8 +102,12 @@ public class Panel extends JPanel implements ActionListener{
                 repaint();
             }
             if(!rotating){
+                if(controller.isSolving()){
+                    controller.solvePuzzle();
+                }
                 setSolved(puzzle.isSolved());
             }
+            
             if(timerIncrement % 1000 == 0 && !controller.isEnded()){
                 --time;
                 timerIncrement = 0;
@@ -158,13 +162,12 @@ public class Panel extends JPanel implements ActionListener{
     }
 
     public void setSolved(boolean solved) {
-        
         if(solved){
             this.setForeground(solvedColor);
         }
         else{
             this.setForeground(unsolvedColor);
-        };
+        }
     }
     
     public boolean isRotating() {
