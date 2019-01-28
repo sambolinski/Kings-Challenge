@@ -43,7 +43,7 @@ public class Panel extends JPanel implements ActionListener{
     private JButton resetButton;
     private JButton solveButton;
     //time
-    private int time = 75;
+    private int time = 300;
     private int timerIncrement = 0;
     
     public Panel(Dimension dimension, Puzzle puzzle){
@@ -148,6 +148,8 @@ public class Panel extends JPanel implements ActionListener{
     } 
     public void resetButtonAction(){
         puzzle.reset();
+        puzzle.checkSolved();
+        controller.setCurrentSolutionIndex(0);
     }
     public void solveButtonAction(){
         inMenu = true;

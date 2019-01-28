@@ -109,6 +109,10 @@ public class Controller {
     public int getCurrentSolutionIndex() {
         return currentSolutionIndex;
     }
+
+    public void setCurrentSolutionIndex(int currentSolutionIndex) {
+        this.currentSolutionIndex = currentSolutionIndex;
+    }
     
     class ControllerListener implements MouseListener{
 
