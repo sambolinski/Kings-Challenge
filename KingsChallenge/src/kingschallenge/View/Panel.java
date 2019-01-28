@@ -148,6 +148,8 @@ public class Panel extends JPanel implements ActionListener{
     } 
     public void resetButtonAction(){
         puzzle.reset();
+        puzzle.checkSolved();
+        controller.setCurrentSolutionIndex(0);
     }
     public void solveButtonAction(){
         inMenu = true;
