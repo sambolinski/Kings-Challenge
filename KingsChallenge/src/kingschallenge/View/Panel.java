@@ -54,7 +54,6 @@ public class Panel extends JPanel implements ActionListener{
         this.puzzle = puzzle;
         init();
         initButtons();
-        initWindows();
     }
     public void init(){
         this.setSize(dimension);
@@ -70,6 +69,7 @@ public class Panel extends JPanel implements ActionListener{
         scoreWindow = new ScoreWindow(new Dimension(350,100), new Point(this.getWidth()/2,this.getHeight()/2),this);
         scoreWindow.setVisible(false);
         scoreDisplayWindow = new ScoreDisplayWindow(new Dimension(700,300), new Point(this.getWidth()/2,this.getHeight()/2),this);
+        scoreDisplayWindow.updateTable();
         scoreDisplayWindow.setVisible(false);
         this.add(passwordWindow);
         this.add(scoreWindow);

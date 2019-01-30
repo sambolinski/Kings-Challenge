@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -70,5 +71,26 @@ public class DBConnect {
             sqlException.printStackTrace();
         }
         return count;
+    }
+    public ArrayList<String[]> retrieveAllPersons(){
+        fixConnection();
+        String SQL = "SELECT * FROM PERSON ORDER BY score ASC";
+        int count = 0;
+        ArrayList<String[]> list = new ArrayList<>();
+        try{
+            Statement statement = con.createStatement( ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = statement.executeQuery(SQL);
+            while (rs.next()) {
+                String[] tmpArr = new String[3];
+                tmpArr[0] = rs.getString("id");
+                tmpArr[1] = rs.getString("name");
+                tmpArr[2] = rs.getString("score");
+                list.add(tmpArr);
+            }
+            con.close();
+        }catch(SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return list;
     }
 }

@@ -8,6 +8,7 @@ package kingschallenge.Controller;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import kingschallenge.DatabaseControl.DBConnect;
 import kingschallenge.Model.Puzzle;
 import kingschallenge.View.Frame;
@@ -29,12 +30,13 @@ public class Controller {
     private String[] solution = {"r","l","r","r","l","l","r","l","l","l","r","r","r","l","l","l","l","l"};
     private int currentSolutionIndex = 0;
     public Controller(Frame frame, Puzzle puzzle){
+        dbSetup();
         this.frame = frame;
         this.frame.init();
         this.puzzle = puzzle;
         this.frame.getPanel().setController(this);
         this.frame.addMouseListener(new ControllerListener());
-        dbSetup();
+        this.frame.getPanel().initWindows();
     }
     public void dbSetup(){
         dbConnection = new DBConnect("Sambolinski","apple");
@@ -78,6 +80,10 @@ public class Controller {
     public void addToDatabase(String name, String time){
         dbConnection.connect();
         dbConnection.insert(Integer.toString(dbConnection.retrieveDatabaseSize() +1 ), name, time);
+    }
+    public ArrayList<String[]> getFromDatabase(){
+        dbConnection.connect();
+        return dbConnection.retrieveAllPersons();
     }
     public boolean isRotating() {
         return rotating;
