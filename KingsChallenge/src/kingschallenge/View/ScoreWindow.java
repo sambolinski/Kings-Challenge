@@ -45,6 +45,7 @@ public class ScoreWindow extends JOptionPane{
         field.setBounds(10, dimension.height/4, (int)(dimension.width*0.8), 30);
         
         submitButton = new JButton("submit");
+        submitButton.setBounds(150, (int)(dimension.height*0.6), 100, 30);
         submitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +59,7 @@ public class ScoreWindow extends JOptionPane{
     public void submitButtonAction(){
         this.setVisible(false);
         this.panel.setInMenu(false);
-        
+        panel.getController().addToDatabase(field.getText(), Integer.toString(panel.getStartTime() - panel.getTime()));
         field.setText("");
     }
 }

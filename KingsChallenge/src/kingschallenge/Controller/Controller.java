@@ -8,6 +8,7 @@ package kingschallenge.Controller;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import kingschallenge.DatabaseControl.DBConnect;
 import kingschallenge.Model.Puzzle;
 import kingschallenge.View.Frame;
 
@@ -24,7 +25,7 @@ public class Controller {
     private boolean ended = false;
     private Frame frame;
     private Puzzle puzzle;
-    
+    private DBConnect dbConnection;
     private String[] solution = {"r","l","r","r","l","l","r","l","l","l","r","r","r","l","l","l","l","l"};
     private int currentSolutionIndex = 0;
     public Controller(Frame frame, Puzzle puzzle){
@@ -33,6 +34,10 @@ public class Controller {
         this.puzzle = puzzle;
         this.frame.getPanel().setController(this);
         this.frame.addMouseListener(new ControllerListener());
+        dbSetup();
+    }
+    public void dbSetup(){
+        dbConnection = new DBConnect("Sambolinski","apple");
     }
     public int circleSelected(Point pos){
         Point leftCircle = new Point(puzzle.getImage().getWidth()/2-190,puzzle.getImage().getHeight()/2);
@@ -69,6 +74,10 @@ public class Controller {
             ++currentSolutionIndex;
             puzzle.checkSolved();
         }
+    }
+    public void addToDatabase(String name, String time){
+        dbConnection.connect();
+        dbConnection.insert(Integer.toString(dbConnection.retrieveDatabaseSize() +1 ), name, time);
     }
     public boolean isRotating() {
         return rotating;
@@ -139,6 +148,9 @@ public class Controller {
                     puzzle.rotateRight();
                 }
                 puzzle.checkSolved();
+                if(puzzle.isSolved()){
+                    frame.getPanel().getScoreWindow().setVisible(true);
+                }
                 ended = puzzle.isSolved();
             }
         }

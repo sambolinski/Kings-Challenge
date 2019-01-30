@@ -5,6 +5,7 @@
  */
 package kingschallenge;
 
+import javax.swing.SwingUtilities;
 import kingschallenge.Controller.Controller;
 import kingschallenge.Model.Puzzle;
 import kingschallenge.View.Frame;
@@ -20,9 +21,11 @@ public class KingsChallenge {
      */
     public static void main(String[] args) {
         Puzzle puzzle = new Puzzle();
-        Frame frame = new Frame();
-        frame.setPuzzle(puzzle);
-        Controller controller = new Controller(frame, puzzle);
+        SwingUtilities.invokeLater(() -> {
+            Frame frame = new Frame();
+            frame.setPuzzle(puzzle);
+            Controller controller = new Controller(frame, puzzle);
+        });
     }
     
 }

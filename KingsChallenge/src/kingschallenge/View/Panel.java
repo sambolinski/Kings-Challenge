@@ -39,11 +39,14 @@ public class Panel extends JPanel implements ActionListener{
     //windows
     private PasswordWindow passwordWindow;
     private ScoreWindow scoreWindow;
+    private ScoreDisplayWindow scoreDisplayWindow;
     //buttons
     private JButton resetButton;
     private JButton solveButton;
+    private JButton scoreButton;
     //time
-    private int time = 300;
+    private final int  startTime = 300;
+    private int time = startTime;
     private int timerIncrement = 0;
     
     public Panel(Dimension dimension, Puzzle puzzle){
@@ -66,8 +69,11 @@ public class Panel extends JPanel implements ActionListener{
         passwordWindow.setVisible(false);
         scoreWindow = new ScoreWindow(new Dimension(350,100), new Point(this.getWidth()/2,this.getHeight()/2),this);
         scoreWindow.setVisible(false);
+        scoreDisplayWindow = new ScoreDisplayWindow(new Dimension(700,300), new Point(this.getWidth()/2,this.getHeight()/2),this);
+        scoreDisplayWindow.setVisible(false);
         this.add(passwordWindow);
         this.add(scoreWindow);
+        this.add(scoreDisplayWindow);
     }
     private void initButtons(){
         this.setLayout(null);
@@ -75,6 +81,8 @@ public class Panel extends JPanel implements ActionListener{
         resetButton.setBounds(dimension.width-120, 50, 110, 25);
         solveButton = new JButton("🔒solution");
         solveButton.setBounds(dimension.width-120, 130, 110, 25);
+        scoreButton = new JButton("score");
+        scoreButton.setBounds(dimension.width-120, 160, 110, 25);
         resetButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,8 +95,15 @@ public class Panel extends JPanel implements ActionListener{
                 solveButtonAction();
             }
         });
+        scoreButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                scoreButtonAction();
+            }
+        });
         this.add(resetButton);
         this.add(solveButton);
+        this.add(scoreButton);
     }
     public void drawCircle(Graphics g){
         g.drawImage(puzzle.getImage(), 0, 0, this);
@@ -155,6 +170,10 @@ public class Panel extends JPanel implements ActionListener{
         inMenu = true;
         passwordWindow.setVisible(true);
     }
+    public void scoreButtonAction(){
+        inMenu = true;
+        scoreDisplayWindow.setVisible(true);
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -192,6 +211,10 @@ public class Panel extends JPanel implements ActionListener{
         this.time = time;
     }
 
+    public int getStartTime() {
+        return startTime;
+    }
+    
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -202,6 +225,10 @@ public class Panel extends JPanel implements ActionListener{
 
     public Timer getTimer() {
         return timer;
+    }
+
+    public ScoreWindow getScoreWindow() {
+        return scoreWindow;
     }
     
 }
