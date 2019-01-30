@@ -7,10 +7,10 @@ package kingschallenge.View;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -28,7 +28,7 @@ public class ScoreDisplayWindow extends JOptionPane{
     private JButton closeButton;
     private JTable table;
     private JScrollPane scrollpane;
-    private String[][] data = {{"1","Sam Hughes", "1"},{"2","Oliver O'Reilly", "2"},{"3","Harrison Myah", "3"},{"3","Harrison Myah", "3"}};
+    private String[][] data;
     private String[] column = {"ID","Name","Time"};
     public ScoreDisplayWindow(Dimension dimension, Point pos, Panel panel){
         this.dimension = dimension;
@@ -64,7 +64,12 @@ public class ScoreDisplayWindow extends JOptionPane{
         this.add(scrollpane);
     }
     public void updateTable(){
-        
+        System.out.println(panel.getController());
+        ArrayList<String[]> retrievedData = panel.getController().getFromDatabase();
+        data = new String[retrievedData.size()][3];
+        for(int i = 0; i < data.length; ++i){
+            data[i] = retrievedData.get(i);
+        }
     }
     public void closeButtonAction(){
         this.setVisible(false);

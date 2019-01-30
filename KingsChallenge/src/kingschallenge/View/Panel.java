@@ -53,8 +53,6 @@ public class Panel extends JPanel implements ActionListener{
         this.dimension = dimension;
         this.puzzle = puzzle;
         init();
-        initButtons();
-        initWindows();
     }
     public void init(){
         this.setSize(dimension);
@@ -75,7 +73,7 @@ public class Panel extends JPanel implements ActionListener{
         this.add(scoreWindow);
         this.add(scoreDisplayWindow);
     }
-    private void initButtons(){
+    public void initButtons(){
         this.setLayout(null);
         resetButton = new JButton("reset");
         resetButton.setBounds(dimension.width-120, 50, 110, 25);
@@ -172,6 +170,7 @@ public class Panel extends JPanel implements ActionListener{
     }
     public void scoreButtonAction(){
         inMenu = true;
+        scoreDisplayWindow.updateTable();
         scoreDisplayWindow.setVisible(true);
     }
     @Override
