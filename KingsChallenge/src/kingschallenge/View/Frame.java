@@ -28,13 +28,12 @@ public class Frame extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         panel = new Panel(dimension, puzzle);
+        this.add(panel);
         this.setUndecorated(true);
         this.setVisible(true);
         this.pack();
     }
-    public void addPanel(){
-        this.add(panel);
-    }
+
     public Dimension getDimension() {
         return dimension;
     }
